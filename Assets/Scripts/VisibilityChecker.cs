@@ -114,7 +114,10 @@ public class VisibilityChecker : MonoBehaviour
             // Remove collisions with the current cube itself
             foreach(var hit in hits)
             {
-                if (!(hit.collider.Equals(cube.GetComponent<Collider>())))
+                Vector3 position = hit.collider.gameObject.transform.position;
+
+
+                if (!(hit.collider.Equals(cube.GetComponent<Collider>())) && !(position.x == cubePosition.x && position.y != cubePosition.y && position.z == cubePosition.z))
                 {
                     tempHits.Add(hit);
                 }
