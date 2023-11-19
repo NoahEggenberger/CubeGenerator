@@ -64,9 +64,11 @@ public class GridManager : MonoBehaviour
             }
         }
     }
-
-    void Start()
+    
+    public void GenerateCubeScene()
     {
         this.CreateGrid();
+
+        this.notAllowedSpawnPositions.Clear();
     }
 }
