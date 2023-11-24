@@ -1,6 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [System.Serializable]
@@ -21,7 +21,11 @@ public class ResultGenerator : MonoBehaviour
 
     public bool IN_DEBUG_MODE = true;
 
-    public string SESSION_ID;
+    private string SESSION_ID;
+
+    private StageEnum currentStage;
+
+    private StrategyEnum currentStrategy;
 
     private readonly List<GameObject> visibleCubes = new List<GameObject>();
 
@@ -83,7 +87,7 @@ public class ResultGenerator : MonoBehaviour
         }
     }
 
-    private void GenerateResultLabels()
+    private void GenerateResultLabels(string dateTime = "")
     {
         var cubePositions = new CubePositions();
 
@@ -127,8 +131,15 @@ public class ResultGenerator : MonoBehaviour
             }
         }
 
-        var fileName = "label_" + System.DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".json";
-        var labelDir = Path.Combine(this.resultPath, this.SESSION_ID, "Labels");
+        string fileName;
+
+        if (dateTime == "") {
+            fileName = $"label_{System.DateTime.Now.ToString("yyyyMMdd_HHmmss")}.json";
+        } else {
+            fileName = $"label_{dateTime}.json";
+        }
+
+        var labelDir = Path.Combine(this.resultPath, $"Strategy_{this.currentStrategy.HumanName()}", this.SESSION_ID, this.currentStage.HumanName(), "Labels");
 
         var filePath = Path.Combine(labelDir, fileName);
 
@@ -153,10 +164,16 @@ public class ResultGenerator : MonoBehaviour
         }
     }
 
-    private void GenerateResultImages()
+    private void GenerateResultImages(int id = 0, string dateTime = "")
     {
-        var fileName = "Image_" + System.DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".jpg";
-        var imageDir = Path.Combine(this.resultPath, this.SESSION_ID, "Images");
+        string fileName;
+        if (id == 0) {
+            fileName = $"Image_{System.DateTime.Now.ToString("yyyyMMdd_HHmmss")}.jpg";
+        } else {
+            fileName = $"Image_{dateTime}_{id}.jpg";
+        }
+
+        var imageDir = Path.Combine(this.resultPath, $"Strategy_{this.currentStrategy.HumanName()}", this.SESSION_ID, this.currentStage.HumanName(), "Images");
         var filePath = Path.Combine(imageDir, fileName);
 
         if (IN_DEBUG_MODE)
@@ -178,14 +195,24 @@ public class ResultGenerator : MonoBehaviour
         }
     }
 
-    public void GenerateResultOutput(string sessionId)
+    public void GenerateResultOutput(string sessionId, StrategyEnum strategy, StageEnum stage, bool generateLabels = true, int id = 0, string dateTime = "")
     {
         this.SESSION_ID = sessionId;
+        this.currentStage = stage;
 
-        this.GetVisibleCubes();
-        this.GenerateResultLabels();
-        this.GenerateResultImages();
-
+        if (strategy == StrategyEnum.One) {
+           this.GetVisibleCubes(); 
+        } else if (strategy == StrategyEnum.Two) {
+            this.visibleCubes.AddRange(GameObject.FindGameObjectsWithTag("Cube"));
+        } else {
+            return;
+        }
+        
+        if (generateLabels) {
+            this.GenerateResultLabels(dateTime);
+        }
+        
+        this.GenerateResultImages(id, dateTime);
         this.visibleCubes.Clear();
     }
 }
