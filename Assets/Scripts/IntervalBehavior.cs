@@ -45,7 +45,7 @@ public class IntervalBehavior : MonoBehaviour
         gridGenerator.GenerateCubeScene();
 
         var resultGenerator = manager.GetComponent<ResultGenerator>();
-        resultGenerator.GenerateResultOutput(this.SESSION_ID, StrategyEnum.One, stage);
+        resultGenerator.GenerateResultOutput(this.SESSION_ID, StrategyEnum.One, stage, this.currentScene);
     }
 
     private IEnumerator ExecuteStrategyTwo(GameObject manager) {
@@ -55,18 +55,16 @@ public class IntervalBehavior : MonoBehaviour
         var gridGenerator = manager.GetComponent<GridManager>();
         var resultGenerator = manager.GetComponent<ResultGenerator>();
 
-        string dateTime = System.DateTime.Now.ToString("yyyyMMdd_HHmmss");
-
         Debug.Log("GENERATE IMAGE 1");
         cameraBehavior.SetCameraPosition(StrategyEnum.Two, 0f);
         gridGenerator.GenerateCubeScene();
-        resultGenerator.GenerateResultOutput(this.SESSION_ID, StrategyEnum.Two, stage, false, 1, dateTime);
+        resultGenerator.GenerateResultOutput(this.SESSION_ID, StrategyEnum.Two, stage, this.currentScene, false, 1);
 
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(1);
 
         Debug.Log("GENERATE IMAGE 2");
         cameraBehavior.SetCameraPosition(StrategyEnum.Two, 180f);
-        resultGenerator.GenerateResultOutput(this.SESSION_ID, StrategyEnum.Two, stage, true, 2, dateTime);
+        resultGenerator.GenerateResultOutput(this.SESSION_ID, StrategyEnum.Two, stage, this.currentScene, true, 2);
     }
 
     private void setStage() {
@@ -81,6 +79,9 @@ public class IntervalBehavior : MonoBehaviour
     
     private void FixedUpdate()
     {
+
+        this.currentScene++;
+
         if (this.currentScene > (this.TRAINING + this.VERIFICATION + this.TESTING))
         {
             // ToDo: This doesn't stop the unity editor
@@ -111,6 +112,5 @@ public class IntervalBehavior : MonoBehaviour
             Debug.LogError("INVALID STRATEGY: " + this.STRATEGY);
         }
 
-        this.currentScene++;
     }
 }

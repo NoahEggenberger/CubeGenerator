@@ -23,6 +23,8 @@ public class ResultGenerator : MonoBehaviour
 
     private string SESSION_ID;
 
+    private int scene;
+
     private StageEnum currentStage;
 
     private StrategyEnum currentStrategy;
@@ -87,7 +89,7 @@ public class ResultGenerator : MonoBehaviour
         }
     }
 
-    private void GenerateResultLabels(string dateTime = "")
+    private void GenerateResultLabels()
     {
         var cubePositions = new CubePositions();
 
@@ -97,31 +99,31 @@ public class ResultGenerator : MonoBehaviour
 
             var cubeBehavior = cube.GetComponent<CubeBehavior>();
 
-            if (cubePosition.x == 1.1f && cubePosition.y == 0f && cubePosition.z == 0f)
+            if (cubePosition.x == 1.1f && cubePosition.y == 0f && cubePosition.z == 1.1f)
             {
                 cubePositions.one = cubeBehavior.GetColorLabel();
             }
-            else if (cubePosition.x == 1.1f && cubePosition.y == 0f && cubePosition.z == 1.1f)
+            else if (cubePosition.x == 1.1f && cubePosition.y == 0f && cubePosition.z == 0f)
             {
                 cubePositions.two = cubeBehavior.GetColorLabel();
             }
-            else if (cubePosition.x == 0f && cubePosition.y == 0f && cubePosition.z == 1.1f)
+            else if (cubePosition.x == 0f && cubePosition.y == 0f && cubePosition.z == 0f)
             {
                 cubePositions.three = cubeBehavior.GetColorLabel();
             }
-            else if (cubePosition.x == 0f && cubePosition.y == 0f && cubePosition.z == 0f)
+            else if (cubePosition.x == 0f && cubePosition.y == 0f && cubePosition.z == 1.1f)
             {
                 cubePositions.four = cubeBehavior.GetColorLabel();
             }
-            else if (cubePosition.x == 1.1f && cubePosition.y == 1f && cubePosition.z == 0f)
+            else if (cubePosition.x == 1.1f && cubePosition.y == 1f && cubePosition.z == 1.1f)
             {
                 cubePositions.five = cubeBehavior.GetColorLabel();
             }
-            else if (cubePosition.x == 1.1f && cubePosition.y == 1f && cubePosition.z == 1.1f)
+            else if (cubePosition.x == 1.1f && cubePosition.y == 1f && cubePosition.z == 0f)
             {
                 cubePositions.six = cubeBehavior.GetColorLabel();
             }
-            else if (cubePosition.x == 0f && cubePosition.y == 1f && cubePosition.z == 1.1f)
+            else if (cubePosition.x == 0f && cubePosition.y == 1f && cubePosition.z == 0f)
             {
                 cubePositions.seven = cubeBehavior.GetColorLabel();
             }
@@ -131,13 +133,7 @@ public class ResultGenerator : MonoBehaviour
             }
         }
 
-        string fileName;
-
-        if (dateTime == "") {
-            fileName = $"label_{System.DateTime.Now.ToString("yyyyMMdd_HHmmss")}.json";
-        } else {
-            fileName = $"label_{dateTime}.json";
-        }
+        var fileName = $"label_{this.scene}.json";
 
         var labelDir = Path.Combine(this.resultPath, $"Strategy_{this.currentStrategy.HumanName()}", this.SESSION_ID, this.currentStage.HumanName(), "Labels");
 
@@ -164,13 +160,13 @@ public class ResultGenerator : MonoBehaviour
         }
     }
 
-    private void GenerateResultImages(int id = 0, string dateTime = "")
+    private void GenerateResultImages(int id = 0)
     {
         string fileName;
         if (id == 0) {
-            fileName = $"Image_{System.DateTime.Now.ToString("yyyyMMdd_HHmmss")}.jpg";
+            fileName = $"Image_{this.scene}.jpg";
         } else {
-            fileName = $"Image_{dateTime}_{id}.jpg";
+            fileName = $"Image_{this.scene}_{id}.jpg";
         }
 
         var imageDir = Path.Combine(this.resultPath, $"Strategy_{this.currentStrategy.HumanName()}", this.SESSION_ID, this.currentStage.HumanName(), "Images");
@@ -195,10 +191,11 @@ public class ResultGenerator : MonoBehaviour
         }
     }
 
-    public void GenerateResultOutput(string sessionId, StrategyEnum strategy, StageEnum stage, bool generateLabels = true, int id = 0, string dateTime = "")
+    public void GenerateResultOutput(string sessionId, StrategyEnum strategy, StageEnum stage, int scene, bool generateLabels = true, int id = 0)
     {
         this.SESSION_ID = sessionId;
         this.currentStage = stage;
+        this.scene = scene;
 
         if (strategy == StrategyEnum.One) {
            this.GetVisibleCubes(); 
@@ -209,10 +206,10 @@ public class ResultGenerator : MonoBehaviour
         }
         
         if (generateLabels) {
-            this.GenerateResultLabels(dateTime);
+            this.GenerateResultLabels();
         }
         
-        this.GenerateResultImages(id, dateTime);
+        this.GenerateResultImages(id);
         this.visibleCubes.Clear();
     }
 }
