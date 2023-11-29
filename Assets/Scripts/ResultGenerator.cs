@@ -2,18 +2,25 @@ using System.Collections.Generic;
 using System.IO;
 using Unity.VisualScripting;
 using UnityEngine;
+using Newtonsoft.Json;
+
+[System.Serializable]
+public class SceneResult {
+    public CubePositions positions;
+    public string[] imagePaths;
+}
 
 [System.Serializable]
 public class CubePositions
 {
-    public string one;
-    public string two;
-    public string three;
-    public string four;
-    public string five;
-    public string six;
-    public string seven;
-    public string eight;
+    public string one = "";
+    public string two = "";
+    public string three = "";
+    public string four = "";
+    public string five = "";
+    public string six = "";
+    public string seven = "";
+    public string eight = "";
 }
 
 public class ResultGenerator : MonoBehaviour
@@ -32,6 +39,10 @@ public class ResultGenerator : MonoBehaviour
     private readonly List<GameObject> visibleCubes = new List<GameObject>();
 
     private string resultPath = Path.Combine(Directory.GetParent(Application.dataPath).ToString(), "Temp", "Generated");
+
+    private List<string> imagePaths = new List<string>();
+
+    private List<SceneResult> sceneResults = new List<SceneResult>();
 
     private void GetVisibleCubes()
     {
@@ -89,6 +100,11 @@ public class ResultGenerator : MonoBehaviour
         }
     }
 
+    private string SerializeToJson(List<SceneResult> results)
+    {
+        return JsonConvert.SerializeObject(results, Formatting.Indented);
+    }
+
     private void GenerateResultLabels()
     {
         var cubePositions = new CubePositions();
@@ -103,7 +119,7 @@ public class ResultGenerator : MonoBehaviour
             {
                 cubePositions.one = cubeBehavior.GetColorLabel();
             }
-            else if (cubePosition.x == 1.1f && cubePosition.y == 0f && cubePosition.z == 0f)
+            else if (cubePosition.x == 0f && cubePosition.y == 0f && cubePosition.z == 1.1f)
             {
                 cubePositions.two = cubeBehavior.GetColorLabel();
             }
@@ -111,7 +127,7 @@ public class ResultGenerator : MonoBehaviour
             {
                 cubePositions.three = cubeBehavior.GetColorLabel();
             }
-            else if (cubePosition.x == 0f && cubePosition.y == 0f && cubePosition.z == 1.1f)
+            else if (cubePosition.x == 1.1f && cubePosition.y == 0f && cubePosition.z == 0f)
             {
                 cubePositions.four = cubeBehavior.GetColorLabel();
             }
@@ -119,7 +135,7 @@ public class ResultGenerator : MonoBehaviour
             {
                 cubePositions.five = cubeBehavior.GetColorLabel();
             }
-            else if (cubePosition.x == 1.1f && cubePosition.y == 1f && cubePosition.z == 0f)
+            else if (cubePosition.x == 0f && cubePosition.y == 1f && cubePosition.z == 1.1f)
             {
                 cubePositions.six = cubeBehavior.GetColorLabel();
             }
@@ -133,29 +149,31 @@ public class ResultGenerator : MonoBehaviour
             }
         }
 
-        var fileName = $"label_{this.scene}.json";
+        var fileName = "scene_results.json";
 
-        var labelDir = Path.Combine(this.resultPath, $"Strategy_{this.currentStrategy.HumanName()}", this.SESSION_ID, this.currentStage.HumanName(), "Labels");
+        var resultDir = Path.Combine(this.resultPath, $"Strategy_{this.currentStrategy.HumanName()}", this.SESSION_ID, this.currentStage.HumanName());
 
-        var filePath = Path.Combine(labelDir, fileName);
+        var filePath = Path.Combine(resultDir, fileName);
+
+        var result = new SceneResult
+        {
+            positions = cubePositions,
+            imagePaths = imagePaths.ToArray()
+        };
+
+        sceneResults.Add(result);
+        Debug.Log(sceneResults.Count);
 
         if (IN_DEBUG_MODE)
         {
-            Debug.Log("1: " + cubePositions.one);
-            Debug.Log("2: " + cubePositions.two);
-            Debug.Log("3: " + cubePositions.three);
-            Debug.Log("4: " + cubePositions.four);
-            Debug.Log("5: " + cubePositions.five);
-            Debug.Log("6: " + cubePositions.six);
-            Debug.Log("7: " + cubePositions.seven);
-            Debug.Log("8: " + cubePositions.eight);
-            Debug.Log(filePath);
+            Debug.Log(result.ToString());
         }
         else
         {
-            this.GenerateDirectory(labelDir);
+            this.GenerateDirectory(resultDir);
 
-            string json = JsonUtility.ToJson(cubePositions);
+            string json = this.SerializeToJson(sceneResults);
+            
             File.WriteAllText(filePath, json);
         }
     }
@@ -171,6 +189,8 @@ public class ResultGenerator : MonoBehaviour
 
         var imageDir = Path.Combine(this.resultPath, $"Strategy_{this.currentStrategy.HumanName()}", this.SESSION_ID, this.currentStage.HumanName(), "Images");
         var filePath = Path.Combine(imageDir, fileName);
+
+        imagePaths.Add(Path.Combine(this.currentStage.HumanName(), "Images", fileName));
 
         if (IN_DEBUG_MODE)
         {
@@ -194,9 +214,16 @@ public class ResultGenerator : MonoBehaviour
     public void GenerateResultOutput(string sessionId, StrategyEnum strategy, StageEnum stage, int scene, bool generateLabels = true, int id = 0)
     {
         this.SESSION_ID = sessionId;
-        this.currentStage = stage;
+
         this.scene = scene;
 
+        this.currentStrategy = strategy;
+
+        if (stage != this.currentStage) {
+            this.currentStage = stage;
+            this.sceneResults.Clear();
+        }
+        
         if (strategy == StrategyEnum.One) {
            this.GetVisibleCubes(); 
         } else if (strategy == StrategyEnum.Two) {
@@ -205,11 +232,14 @@ public class ResultGenerator : MonoBehaviour
             return;
         }
         
+        this.GenerateResultImages(id);
+
         if (generateLabels) {
             this.GenerateResultLabels();
+            this.imagePaths.Clear();
         }
-        
-        this.GenerateResultImages(id);
+
         this.visibleCubes.Clear();
+
     }
 }

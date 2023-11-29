@@ -191,7 +191,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0caebfa823f65534a90589780acb999d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IN_DEBUG_MODE: 1
+  IN_DEBUG_MODE: 0
 --- !u!114 &667235303
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -497,10 +497,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27144e27216afaf4a89f1ff7b29ca788, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TRAINING: 70
-  VERIFICATION: 20
-  TESTING: 10
-  STRATEGY: 1
+  TRAINING: 700
+  VERIFICATION: 200
+  TESTING: 100
+  STRATEGY: 0
 --- !u!4 &1954376201
 Transform:
   m_ObjectHideFlags: 0
