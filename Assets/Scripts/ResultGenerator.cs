@@ -38,7 +38,7 @@ public class ResultGenerator : MonoBehaviour
 
     private readonly List<GameObject> visibleCubes = new List<GameObject>();
 
-    private string resultPath = Path.Combine(Directory.GetParent(Application.dataPath).ToString(), "Temp", "Generated");
+    private string resultPath = Path.Combine(Directory.GetParent(Application.dataPath).ToString(), "Generated");
 
     private List<string> imagePaths = new List<string>();
 

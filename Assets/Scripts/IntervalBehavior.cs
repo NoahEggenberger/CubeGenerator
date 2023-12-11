@@ -56,14 +56,18 @@ public class IntervalBehavior : MonoBehaviour
         var resultGenerator = manager.GetComponent<ResultGenerator>();
 
         Debug.Log("GENERATE IMAGE 1");
-        cameraBehavior.SetCameraPosition(StrategyEnum.Two, 0f);
+        var angle = UnityEngine.Random.Range(0f, 360f);
+        cameraBehavior.SetCameraPosition(StrategyEnum.Two, angle);
         gridGenerator.GenerateCubeScene();
         resultGenerator.GenerateResultOutput(this.SESSION_ID, StrategyEnum.Two, stage, this.currentScene, false, 1);
 
         yield return new WaitForSeconds(1);
 
+
+
         Debug.Log("GENERATE IMAGE 2");
-        cameraBehavior.SetCameraPosition(StrategyEnum.Two, 180f);
+        var secondAngle = angle + 180f;
+        cameraBehavior.SetCameraPosition(StrategyEnum.Two, secondAngle);
         resultGenerator.GenerateResultOutput(this.SESSION_ID, StrategyEnum.Two, stage, this.currentScene, true, 2);
     }
 
