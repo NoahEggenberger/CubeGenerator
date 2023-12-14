@@ -2,9 +2,8 @@ using UnityEngine;
 
 public class CameraBehavior : MonoBehaviour
 {
-    public float circleRadius = 5.0f;
 
-    public void SetCameraPosition(StrategyEnum strategy, float degrees = 0f)
+    public void SetCameraPosition(StrategyEnum strategy, float y, float circleRadius, float degrees = 0f)
     {
         Camera mainCamera = Camera.main;
         float angle = 0f;
@@ -21,7 +20,7 @@ public class CameraBehavior : MonoBehaviour
         // Calculate the position on the circle based on the angle and radius
         Vector3 position = new Vector3(
             circleRadius * Mathf.Cos(Mathf.Deg2Rad * angle) + 0.5f,
-            mainCamera.transform.position.y,
+            y,
             circleRadius * Mathf.Sin(Mathf.Deg2Rad * angle) + 0.5f
         );
 

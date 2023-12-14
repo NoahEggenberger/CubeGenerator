@@ -17,7 +17,10 @@ public class GridManager : MonoBehaviour
 
     private GameObject GetRandomCube()
     {
-        return cubes[Random.Range(0, cubes.Length)];
+        var cube = cubes[Random.Range(0, cubes.Length)];
+        var cubeBehavior = cube.GetComponent<CubeBehavior>();
+        cube = cubeBehavior.SetToRandomColorRange(cube);
+        return cube;
     }
 
     private void SetNotAllowed(int x, int z)

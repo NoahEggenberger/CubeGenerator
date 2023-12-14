@@ -37,9 +37,12 @@ public class IntervalBehavior : MonoBehaviour
 
     private void ExecuteStrategyOne(GameObject manager) {
         Debug.Log("RUNNING STRATEGY 1");
+
+        var cameraYPosition = UnityEngine.Random.Range(2f, 6f);
+        var radius = UnityEngine.Random.Range(5f, 7f);
         
         var cameraBehavior = manager.GetComponent<CameraBehavior>();
-        cameraBehavior.SetCameraPosition(StrategyEnum.One);
+        cameraBehavior.SetCameraPosition(StrategyEnum.One, cameraYPosition, radius);
 
         var gridGenerator = manager.GetComponent<GridManager>();
         gridGenerator.GenerateCubeScene();
@@ -55,19 +58,24 @@ public class IntervalBehavior : MonoBehaviour
         var gridGenerator = manager.GetComponent<GridManager>();
         var resultGenerator = manager.GetComponent<ResultGenerator>();
 
+
+
         Debug.Log("GENERATE IMAGE 1");
         var angle = UnityEngine.Random.Range(0f, 360f);
-        cameraBehavior.SetCameraPosition(StrategyEnum.Two, angle);
+        var cameraYPosition = UnityEngine.Random.Range(1f, 5f);
+        var radius = UnityEngine.Random.Range(5f, 7f);
+
+        cameraBehavior.SetCameraPosition(StrategyEnum.Two, cameraYPosition, radius, angle);
         gridGenerator.GenerateCubeScene();
         resultGenerator.GenerateResultOutput(this.SESSION_ID, StrategyEnum.Two, stage, this.currentScene, false, 1);
 
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(0.25f);
 
 
 
         Debug.Log("GENERATE IMAGE 2");
         var secondAngle = angle + 180f;
-        cameraBehavior.SetCameraPosition(StrategyEnum.Two, secondAngle);
+        cameraBehavior.SetCameraPosition(StrategyEnum.Two, cameraYPosition, radius, secondAngle);
         resultGenerator.GenerateResultOutput(this.SESSION_ID, StrategyEnum.Two, stage, this.currentScene, true, 2);
     }
 

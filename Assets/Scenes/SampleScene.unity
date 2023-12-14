@@ -204,7 +204,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1ea61f6a2c69c74aa4e0678c86ec74f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  circleRadius: 5
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -500,7 +499,7 @@ MonoBehaviour:
   TRAINING: 700
   VERIFICATION: 200
   TESTING: 100
-  STRATEGY: 0
+  STRATEGY: 1
 --- !u!4 &1954376201
 Transform:
   m_ObjectHideFlags: 0
