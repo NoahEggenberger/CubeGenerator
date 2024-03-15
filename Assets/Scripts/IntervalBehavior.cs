@@ -62,9 +62,11 @@ public class IntervalBehavior : MonoBehaviour
 
         Debug.Log("GENERATE IMAGE 1");
         var angle = UnityEngine.Random.Range(0f, 360f);
-        var cameraYPosition = UnityEngine.Random.Range(1f, 5f);
-        var radius = UnityEngine.Random.Range(5f, 7f);
-
+        // var cameraYPosition = UnityEngine.Random.Range(1f, 5f);
+        var cameraYPosition = 4f;
+        // var radius = UnityEngine.Random.Range(5f, 7f);
+        var radius = 6f;
+        
         cameraBehavior.SetCameraPosition(StrategyEnum.Two, cameraYPosition, radius, angle);
         gridGenerator.GenerateCubeScene();
         resultGenerator.GenerateResultOutput(this.SESSION_ID, StrategyEnum.Two, stage, this.currentScene, false, 1);

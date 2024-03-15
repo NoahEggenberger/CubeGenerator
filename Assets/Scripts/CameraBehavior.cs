@@ -27,6 +27,6 @@ public class CameraBehavior : MonoBehaviour
         // Set the camera's position
         mainCamera.transform.position = position;
 
-        mainCamera.transform.LookAt(new Vector3(0.5f, 0, 0.5f));
+        mainCamera.transform.LookAt(new Vector3(0.5f, -1.5f, 0.5f));
     }
 }
