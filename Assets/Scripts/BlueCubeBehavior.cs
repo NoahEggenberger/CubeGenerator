@@ -4,7 +4,7 @@ public class BlueCubeBehavior : MonoBehaviour, CubeBehavior
 {
     private readonly string COLOR_LABEL = "blue";
 
-    private readonly float[] blueHueRange = { 200f, 240f };
+    private readonly float[] blueHueRange = { 220f, 240f };
 
 
     public string GetColorLabel()

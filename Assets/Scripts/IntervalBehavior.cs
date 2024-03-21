@@ -62,10 +62,10 @@ public class IntervalBehavior : MonoBehaviour
 
         Debug.Log("GENERATE IMAGE 1");
         var angle = UnityEngine.Random.Range(0f, 360f);
-        // var cameraYPosition = UnityEngine.Random.Range(1f, 5f);
-        var cameraYPosition = 4f;
-        // var radius = UnityEngine.Random.Range(5f, 7f);
-        var radius = 6f;
+        var cameraYPosition = UnityEngine.Random.Range(3f, 5f);
+        // var cameraYPosition = 4f;
+        var radius = UnityEngine.Random.Range(5.5f, 6.5f);
+        // var radius = 6f;
         
         cameraBehavior.SetCameraPosition(StrategyEnum.Two, cameraYPosition, radius, angle);
         gridGenerator.GenerateCubeScene();
@@ -76,7 +76,8 @@ public class IntervalBehavior : MonoBehaviour
 
 
         Debug.Log("GENERATE IMAGE 2");
-        var secondAngle = angle + 180f;
+        var randomAngle = UnityEngine.Random.Range(175f, 185f);
+        var secondAngle = angle + randomAngle;
         cameraBehavior.SetCameraPosition(StrategyEnum.Two, cameraYPosition, radius, secondAngle);
         resultGenerator.GenerateResultOutput(this.SESSION_ID, StrategyEnum.Two, stage, this.currentScene, true, 2);
     }
