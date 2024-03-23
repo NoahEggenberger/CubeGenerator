@@ -15,11 +15,12 @@ public class GridManager : MonoBehaviour
 
     private readonly List<Vector3Int> notAllowedSpawnPositions = new List<Vector3Int>();
 
-    private GameObject GetRandomCube()
+    private GameObject GetRandomCube(int x, int y, int z)
     {
         var cube = cubes[Random.Range(0, cubes.Length)];
         var cubeBehavior = cube.GetComponent<CubeBehavior>();
         cube = cubeBehavior.SetToRandomColorRange(cube);
+        cubeBehavior.SetCubePosition(this.SetCubePosition(x,y,z));
         return cube;
     }
 
@@ -38,6 +39,41 @@ public class GridManager : MonoBehaviour
         return true;
     }
 
+    public int SetCubePosition(int x, int y, int z) {
+        if (x == 1 && y == 0 && z == 1)
+        {
+            return 1;
+        }
+        else if (x == 0 && y == 0 && z == 1)
+        {
+            return 2;
+        }
+        else if (x == 0 && y == 0 && z == 0)
+        {
+            return 3;
+        }
+        else if (x== 1 && y == 0 && z == 0)
+        {
+            return 4;
+        }
+        else if (x == 1 && y == 1 && z == 1)
+        {
+            return 5;
+        }
+        else if (x == 0 && y == 1 && z == 1)
+        {
+            return 6;
+        }
+        else if (x == 0 && y == 1 && z == 0)
+        {
+            return 7;
+        }
+        else
+        {
+            return 8;
+        }
+    }
+
     private void CreateGrid()
     {
         for (int x = 0; x < GRID_WIDTH; x++)
@@ -50,8 +86,10 @@ public class GridManager : MonoBehaviour
                     {
                         if (Random.value < SPAWN_PROBABILITY)
                         {
+                            SPACING = Random.Range(0.05f, 0.15f);
+                            var rotation = Random.Range(-5f, 5f);
                             Vector3 spawnPosition = new Vector3(x * (CELL_SIZE + SPACING), y * (CELL_SIZE), z * (CELL_SIZE + SPACING));
-                            Instantiate(this.GetRandomCube(), spawnPosition, Quaternion.identity);
+                            Instantiate(this.GetRandomCube(x, y, z), spawnPosition, Quaternion.Euler(0f, rotation, 0f));
 
                         }
                         else

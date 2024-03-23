@@ -4,6 +4,8 @@ public class YellowCubeBehavior : MonoBehaviour, CubeBehavior
 {
     private readonly string COLOR_LABEL = "yellow";
 
+    public int position;
+
     private readonly float[] yellowHueRange = { 40f, 80f };
 
     private Color RandomColorInHueRange(float[] hueRange)
@@ -29,5 +31,15 @@ public class YellowCubeBehavior : MonoBehaviour, CubeBehavior
         }
 
         return cube;
+    }
+
+    public void SetCubePosition(int position)
+    {
+        this.position = position;
+    }
+
+    public int GetCubePosition()
+    {
+        return this.position;
     }
 }

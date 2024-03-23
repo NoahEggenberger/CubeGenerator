@@ -44,6 +44,7 @@ public class IntervalBehavior : MonoBehaviour
         var cameraBehavior = manager.GetComponent<CameraBehavior>();
         cameraBehavior.SetCameraPosition(StrategyEnum.One, cameraYPosition, radius);
 
+
         var gridGenerator = manager.GetComponent<GridManager>();
         gridGenerator.GenerateCubeScene();
 
@@ -58,7 +59,13 @@ public class IntervalBehavior : MonoBehaviour
         var gridGenerator = manager.GetComponent<GridManager>();
         var resultGenerator = manager.GetComponent<ResultGenerator>();
 
+        var directionalLightManager = DirectionalLightManager.Instance;
+        var rotateX = UnityEngine.Random.Range(45f, 90f);
+        Debug.Log(rotateX);
+        directionalLightManager.transform.rotation = Quaternion.Euler(new Vector3(rotateX, 0f, 0f));
 
+        var light = directionalLightManager.directionalLight;
+        light.intensity = UnityEngine.Random.Range(0.5f, 1f);
 
         Debug.Log("GENERATE IMAGE 1");
         var angle = UnityEngine.Random.Range(0f, 360f);

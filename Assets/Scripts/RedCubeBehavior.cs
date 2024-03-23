@@ -6,6 +6,8 @@ public class RedCubeBehavior : MonoBehaviour, CubeBehavior
 
     private readonly float[] redHueRange = { 0f, 10f };
 
+    public int position;
+
     private Color RandomColorInHueRange(float[] hueRange)
     {
         float randomHue = Random.Range(hueRange[0], hueRange[1]) / 360f; 
@@ -30,5 +32,15 @@ public class RedCubeBehavior : MonoBehaviour, CubeBehavior
             }
 
             return cube;
+    }
+
+    public int GetCubePosition()
+    {
+        return this.position;
+    }
+
+    public void SetCubePosition(int position)
+    {
+        this.position = position;
     }
 }

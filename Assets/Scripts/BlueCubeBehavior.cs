@@ -6,6 +6,8 @@ public class BlueCubeBehavior : MonoBehaviour, CubeBehavior
 
     private readonly float[] blueHueRange = { 220f, 240f };
 
+    public int position;
+
 
     public string GetColorLabel()
     {
@@ -29,5 +31,15 @@ public class BlueCubeBehavior : MonoBehaviour, CubeBehavior
                 Debug.LogError("Renderer component not found.");
             }
             return cube;
+    }
+
+    public void SetCubePosition(int position)
+    {
+        this.position = position;
+    }
+
+    public int GetCubePosition()
+    {
+        return this.position;
     }
 }

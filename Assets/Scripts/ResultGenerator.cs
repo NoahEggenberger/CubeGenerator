@@ -111,35 +111,33 @@ public class ResultGenerator : MonoBehaviour
 
         foreach (GameObject cube in this.visibleCubes)
         {
-            var cubePosition = cube.transform.position;
-
             var cubeBehavior = cube.GetComponent<CubeBehavior>();
 
-            if (cubePosition.x == 1.1f && cubePosition.y == 0f && cubePosition.z == 1.1f)
+            if (cubeBehavior.GetCubePosition() == 1)
             {
                 cubePositions.one = cubeBehavior.GetColorLabel();
             }
-            else if (cubePosition.x == 0f && cubePosition.y == 0f && cubePosition.z == 1.1f)
+            else if (cubeBehavior.GetCubePosition() == 2)
             {
                 cubePositions.two = cubeBehavior.GetColorLabel();
             }
-            else if (cubePosition.x == 0f && cubePosition.y == 0f && cubePosition.z == 0f)
+            else if (cubeBehavior.GetCubePosition() == 3)
             {
                 cubePositions.three = cubeBehavior.GetColorLabel();
             }
-            else if (cubePosition.x == 1.1f && cubePosition.y == 0f && cubePosition.z == 0f)
+            else if (cubeBehavior.GetCubePosition() == 4)
             {
                 cubePositions.four = cubeBehavior.GetColorLabel();
             }
-            else if (cubePosition.x == 1.1f && cubePosition.y == 1f && cubePosition.z == 1.1f)
+            else if (cubeBehavior.GetCubePosition() == 5)
             {
                 cubePositions.five = cubeBehavior.GetColorLabel();
             }
-            else if (cubePosition.x == 0f && cubePosition.y == 1f && cubePosition.z == 1.1f)
+            else if (cubeBehavior.GetCubePosition() == 6)
             {
                 cubePositions.six = cubeBehavior.GetColorLabel();
             }
-            else if (cubePosition.x == 0f && cubePosition.y == 1f && cubePosition.z == 0f)
+            else if (cubeBehavior.GetCubePosition() == 7)
             {
                 cubePositions.seven = cubeBehavior.GetColorLabel();
             }
