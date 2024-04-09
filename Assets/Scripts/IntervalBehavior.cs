@@ -78,7 +78,7 @@ public class IntervalBehavior : MonoBehaviour
         gridGenerator.GenerateCubeScene();
         resultGenerator.GenerateResultOutput(this.SESSION_ID, StrategyEnum.Two, stage, this.currentScene, false, 1);
 
-        yield return new WaitForSeconds(0.25f);
+        yield return new WaitForSeconds(0.0625f);
 
 
 
